@@ -1,0 +1,237 @@
+.rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  column-gap: var(--sp-4);
+}
+
+/* --- the git-graph rail column --- */
+
+.railCol {
+  flex: 0 0 12px;
+  width: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.segTop,
+.segBottom {
+  width: 1px;
+  flex: 1 1 0;
+}
+
+.segTop[data-emerald='true'],
+.segBottom[data-emerald='true'] {
+  background: var(--emerald);
+}
+
+.segTop[data-emerald='false'],
+.segBottom[data-emerald='false'] {
+  background: var(--border);
+}
+
+.segTop[data-hidden='true'],
+.segBottom[data-hidden='true'] {
+  background: transparent;
+}
+
+.node {
+  position: relative;
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  z-index: 1;
+}
+
+.node[data-status='completed'] {
+  background: var(--emerald);
+  border-color: var(--emerald);
+}
+
+.node[data-status='current'] {
+  background: var(--bg);
+  border-color: var(--amber);
+}
+
+.node[data-status='locked'] {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.pulseRing {
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--amber);
+  animation: pulse 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulseRing {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- the card --- */
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: var(--sp-5) var(--sp-4);
+  font: inherit;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background var(--t-fast);
+}
+
+.cardCompleted,
+.cardCurrent {
+  cursor: pointer;
+}
+
+.cardCompleted:hover {
+  background: var(--surface-2);
+  border-color: var(--emerald);
+}
+
+.cardCompleted:hover::before {
+  background: var(--emerald);
+}
+
+.cardCurrent {
+  border-color: var(--border-hi);
+}
+
+.cardCurrent:hover {
+  background: var(--surface-2);
+}
+
+.cardCurrent:hover::before {
+  background: var(--amber);
+}
+
+.cardLocked {
+  opacity: 0.38;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+
+.index {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.labelCurrent,
+.labelLocked {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.labelCurrent {
+  color: var(--amber);
+}
+
+.labelLocked {
+  color: var(--text-dim);
+}
+
+.check {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--emerald);
+}
+
+.title {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 var(--sp-1);
+}
+
+.description {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0 0 var(--sp-3);
+}
+
+.meta {
+  margin-bottom: var(--sp-2);
+}
+
+.count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.barTrack {
+  height: 2px;
+  width: 100%;
+  background: var(--border);
+}
+
+.barFill {
+  height: 100%;
+}
+
+.barFill[data-status='completed'] {
+  background: var(--emerald);
+}
+
+.barFill[data-status='current'] {
+  background: var(--amber);
+}
+
+.barFill[data-status='locked'] {
+  background: var(--border);
+}

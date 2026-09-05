@@ -1,0 +1,66 @@
+/* CodeCraft design tokens — dark terminal aesthetic.
+   Every color, spacing, type and motion value used anywhere in the app
+   flows from this file. Never hardcode a raw hex value in a component. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* surfaces */
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-2: #1c222b;
+  --surface-3: #21262d;
+  --border: #30363d;
+  --border-hi: #414b58;
+
+  /* text */
+  --text: #e6edf3;
+  --text-dim: #8b949e;
+  --text-faint: #6e7681;
+
+  /* accent: emerald — progress, completion, success */
+  --emerald: #10b981;
+  --emerald-soft: rgba(16, 185, 129, 0.12);
+  --emerald-line: rgba(16, 185, 129, 0.42);
+
+  /* accent: amber — current position, xp */
+  --amber: #f59e0b;
+  --amber-soft: rgba(245, 158, 11, 0.12);
+  --amber-line: rgba(245, 158, 11, 0.42);
+
+  /* danger — incorrect state only, never a fill */
+  --danger: #f85149;
+  --danger-soft: rgba(248, 81, 73, 0.1);
+
+  /* spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* type families */
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+
+  /* motion */
+  --t-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-med: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* sharp corners everywhere, no exceptions */
+* {
+  border-radius: 0;
+}
+
+::selection {
+  background: var(--emerald-soft);
+  color: var(--text);
+}

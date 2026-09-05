@@ -1,0 +1,145 @@
+.wrap {
+  padding: var(--sp-6) 0 var(--sp-8);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--sp-5);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  transition: color var(--t-fast);
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.title {
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--sp-2);
+}
+
+.description {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0 0 var(--sp-6);
+  max-width: 56ch;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item + .item {
+  margin-top: -1px;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: var(--sp-3) var(--sp-4);
+  font: inherit;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+
+.row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: transparent;
+  transition: background var(--t-fast);
+}
+
+button.row {
+  cursor: pointer;
+}
+
+button.row:hover {
+  background: var(--surface-2);
+  border-color: var(--border-hi);
+}
+
+button.row[data-status='done']:hover::before {
+  background: var(--emerald);
+}
+
+button.row[data-status='current']:hover::before {
+  background: var(--amber);
+}
+
+.rowLocked {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.index {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.glyph {
+  flex: 0 0 auto;
+  width: 14px;
+  font-family: var(--mono);
+  font-size: 14px;
+  text-align: center;
+}
+
+.glyph[data-status='done'] {
+  color: var(--emerald);
+}
+
+.glyph[data-status='current'] {
+  color: var(--amber);
+}
+
+.glyph[data-status='locked'] {
+  color: var(--text-faint);
+}
+
+.lessonTitle {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xp {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}

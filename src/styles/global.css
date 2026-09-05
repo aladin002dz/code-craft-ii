@@ -1,0 +1,78 @@
+/* CodeCraft global styles — page ground, base type, layout column,
+   focus rules, reduced-motion guard. Component-level styles live in
+   their own CSS Modules. */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+code,
+pre,
+kbd,
+.mono {
+  font-family: var(--mono);
+}
+
+/* numbers that can change value should read as a steady-width readout */
+.mono,
+code,
+pre,
+kbd {
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+/* the one centered content column every screen shares */
+.cc-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* keyboard focus is always visible, never a browser default */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 1px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
