@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   DndContext,
   KeyboardSensor,
@@ -53,6 +53,9 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
   const [wrongIds, setWrongIds] = useState(() => new Set())
   const [flashing, setFlashing] = useState(false)
   const [message, setMessage] = useState('')
+  // Tracks an in-progress pointer/keyboard drag so text selection can be
+  // suppressed only while dragging, keeping code text selectable otherwise.
+  const [isDragging, setIsDragging] = useState(false)
 
   const solvedOnceRef = useRef(isCompleted) // guards this component's own check handler
   const reducedMotion = prefersReducedMotion()
@@ -110,7 +113,12 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
     }
   }, [order, reducedMotion, triggerShake, playCorrect, playIncorrect, onComplete, lesson.xp])
 
+  const handleDragStart = useCallback(() => {
+    setIsDragging(true)
+  }, [])
+
   const handleDragEnd = useCallback((event) => {
+    setIsDragging(false)
     const { active, over } = event
     if (!over || active.id === over.id) return
     setOrder((items) => {
@@ -121,10 +129,15 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
     })
   }, [])
 
+  const handleDragCancel = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
   const containerClassName = [
     styles.exercise,
     solved ? styles.solved : '',
     flashing ? styles.flash : '',
+    isDragging ? styles.dragging : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -143,7 +156,9 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
         sensors={sensors}
         collisionDetection={closestCenter}
         modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
       >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           <ol className={styles.list}>

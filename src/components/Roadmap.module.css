@@ -1,3 +1,28 @@
+.screenHead {
+  margin-bottom: var(--sp-6);
+}
+
+.screenTitle {
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--sp-2);
+}
+
+.screenProgress {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.screenProgressCount {
+  color: var(--emerald);
+  font-variant-numeric: tabular-nums;
+}
+
 .rail {
   list-style: none;
   margin: 0;
@@ -112,7 +137,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 1px;
   background: transparent;
   transition: background var(--t-fast);
 }

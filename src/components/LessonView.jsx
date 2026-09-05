@@ -1,31 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReorderExercise from './ReorderExercise'
-import { useCountUp } from '../hooks/useCountUp'
 import styles from './LessonView.module.css'
 
 /**
- * Lesson chrome: back control, section/lesson crumb, title, this lesson's
- * XP value, a short prompt, then the reorder exercise itself. Renders
+ * Lesson chrome: back control, a section micro-label, title, this lesson's
+ * XP badge, a short prompt, then the reorder exercise itself. Renders
  * lesson.codeLines etc. via props only — zero hardcoded course content.
  */
 export default function LessonView({ section, lesson, isCompleted, muted, onComplete, onBack, onNext }) {
   // Guards onComplete so a re-render or a second correct check cannot
   // double-award XP. Reset whenever the lesson identity changes.
   const hasAwardedRef = useRef(isCompleted)
-  const [awardedXp, setAwardedXp] = useState(isCompleted ? lesson.xp : 0)
-  const shownXp = useCountUp(awardedXp)
+  // Whether the XP badge should show its earned (emerald) treatment. The
+  // badge itself always displays lesson.xp — it states the reward on
+  // offer, not a running total, so it never animates up from zero.
+  const [earned, setEarned] = useState(isCompleted)
 
   useEffect(() => {
     hasAwardedRef.current = isCompleted
-    setAwardedXp(isCompleted ? lesson.xp : 0)
+    setEarned(isCompleted)
   }, [lesson.id, isCompleted])
 
   const handleComplete = (xp) => {
     if (hasAwardedRef.current) return
     hasAwardedRef.current = true
-    setAwardedXp(xp)
+    setEarned(true)
     onComplete(xp)
   }
+
+  const xpClassName = [styles.xp, earned ? styles.xpEarned : ''].filter(Boolean).join(' ')
 
   return (
     <section className={styles.wrap}>
@@ -33,16 +36,12 @@ export default function LessonView({ section, lesson, isCompleted, muted, onComp
         <span aria-hidden="true">&larr;</span> Back
       </button>
 
-      <nav className={styles.crumbs} aria-label="Breadcrumb">
-        <span className={styles.crumbItem}>{section.title}</span>
-        <span className={styles.crumbSep} aria-hidden="true">/</span>
-        <span className={styles.crumbItem}>{lesson.title}</span>
-      </nav>
+      <span className={styles.sectionLabel}>{section.title}</span>
 
       <div className={styles.titleRow}>
         <h1 className={styles.title}>{lesson.title}</h1>
-        <span className={styles.xp} aria-live="polite">
-          <span className={styles.xpValue}>{shownXp}</span> xp
+        <span className={xpClassName} aria-live="polite">
+          <span className={styles.xpValue}>{lesson.xp}</span> xp
         </span>
       </div>
 

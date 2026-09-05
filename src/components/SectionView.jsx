@@ -1,20 +1,21 @@
+import { isLessonUnlocked } from '../lib/progress.js'
 import styles from './SectionView.module.css'
 
 function pad2(n) {
   return String(n).padStart(2, '0')
 }
 
-// lesson 0 of an unlocked section is open; lesson n needs lesson n-1 done
-function lessonStatus(lessons, completedIds, index) {
-  if (completedIds.includes(lessons[index].id)) return 'done'
-  const prev = lessons[index - 1]
-  if (!prev || completedIds.includes(prev.id)) return 'current'
-  return 'locked'
+// done takes priority; otherwise defer to the shared lock rule so this
+// stays in lockstep with the roadmap's own locking logic.
+function lessonStatus(section, lesson, completedIds) {
+  if (completedIds.includes(lesson.id)) return 'done'
+  if (!isLessonUnlocked(section, lesson, completedIds)) return 'locked'
+  return 'current'
 }
 
 export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
   return (
-    <div className={styles.wrap}>
+    <>
       <button type="button" className={styles.back} onClick={onBack}>
         <span aria-hidden="true">←</span> back to roadmap
       </button>
@@ -24,7 +25,7 @@ export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
 
       <ol className={styles.list}>
         {section.lessons.map((lesson, i) => {
-          const status = lessonStatus(section.lessons, completedIds, i)
+          const status = lessonStatus(section, lesson, completedIds)
           const locked = status === 'locked'
 
           const rowInner = (
@@ -62,7 +63,7 @@ export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
           )
         })}
       </ol>
-    </div>
+    </>
   )
 }
 

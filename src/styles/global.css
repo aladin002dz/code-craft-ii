@@ -56,6 +56,16 @@ a {
   padding: 0 24px;
 }
 
+/* Single source of vertical rhythm for every screen. Scoped to the <main>
+   element specifically (not every .cc-container) so it doesn't reach into
+   Header's inner row, which reuses the same class purely for horizontal
+   alignment inside its fixed 56px bar. Roadmap and SectionView both render
+   into this <main> and must not add their own top/bottom padding. */
+main.cc-container {
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
+}
+
 /* keyboard focus is always visible, never a browser default */
 :focus {
   outline: none;
