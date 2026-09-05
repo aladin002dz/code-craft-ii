@@ -71,3 +71,7 @@ Background `#0D1117`, surface `#161B22`, border `#30363D`. Emerald `#10B981`
 for progress and success, amber `#F59E0B` for the current position and XP.
 JetBrains Mono for code and numbers, Inter for prose. Sharp corners, 1px
 borders, no gradients, no drop shadows.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
