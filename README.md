@@ -1,8 +1,22 @@
 # CodeCraft
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Online-10B981?style=for-the-badge&logo=githubpages&logoColor=white)](https://aladin002dz.github.io/code-craft-ii/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
+
+> [!TIP]
+> **Live Preview**: Experience CodeCraft directly in your browser at **[https://aladin002dz.github.io/code-craft-ii/](https://aladin002dz.github.io/code-craft-ii/)**
+
 A React course-platform shell with a dark terminal aesthetic. Three screens:
 a git-graph style roadmap, a section lesson list, and a drag-to-reorder code
 exercise.
+
+## 🚀 Live Preview
+
+Test the interactive course platform online without needing to install anything locally:
+
+👉 **[https://aladin002dz.github.io/code-craft-ii/](https://aladin002dz.github.io/code-craft-ii/)**
+
+## 💻 Local Development
 
 ```bash
 npm install
