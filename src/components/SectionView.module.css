@@ -22,7 +22,7 @@
   font-size: 28px;
   font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-title);
   margin: 0 0 var(--sp-2);
 }
 
@@ -51,7 +51,7 @@
   align-items: center;
   gap: var(--sp-3);
   width: 100%;
-  text-align: left;
+  text-align: start;
   background: var(--surface);
   border: 1px solid var(--border);
   padding: var(--sp-3) var(--sp-4);
@@ -62,7 +62,7 @@
 .row::before {
   content: '';
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   bottom: 0;
   width: 1px;

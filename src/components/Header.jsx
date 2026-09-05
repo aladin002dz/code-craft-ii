@@ -1,4 +1,5 @@
 import { useCountUp } from '../hooks/useCountUp'
+import { LOCALES, useI18n } from '../i18n'
 import styles from './Header.module.css'
 
 // two-state speaker icon, hand-written paths, ~14px box
@@ -39,8 +40,34 @@ function SpeakerIcon({ muted }) {
   )
 }
 
+function LanguageSwitcher({ locale, setLocale, label }) {
+  return (
+    <div className={styles.langGroup} role="group" aria-label={label}>
+      {LOCALES.map((l) => (
+        <button
+          key={l.code}
+          type="button"
+          lang={l.code}
+          className={styles.langButton}
+          data-active={l.code === locale}
+          aria-pressed={l.code === locale}
+          // The visible text is a 2-letter code; the accessible name is the
+          // language's own endonym, so a screen reader announces 'Francais'
+          // rather than spelling out F-R.
+          aria-label={l.name}
+          title={l.name}
+          onClick={() => setLocale(l.code)}
+        >
+          {l.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function Header({ xp, muted, onToggleMute, onHome, crumbs = [] }) {
   const shownXp = useCountUp(xp)
+  const { t, locale, setLocale } = useI18n()
 
   return (
     <header className={styles.header}>
@@ -52,7 +79,7 @@ export function Header({ xp, muted, onToggleMute, onHome, crumbs = [] }) {
           </button>
 
           {crumbs.length > 0 && (
-            <nav className={styles.crumbs} aria-label="Breadcrumb">
+            <nav className={styles.crumbs} aria-label={t('header.breadcrumb')}>
               {crumbs.map((crumb, i) => (
                 <span className={styles.crumbItem} key={`${crumb.label}-${i}`}>
                   <span className={styles.crumbSep} aria-hidden="true">
@@ -78,18 +105,24 @@ export function Header({ xp, muted, onToggleMute, onHome, crumbs = [] }) {
         <div className={styles.right}>
           <div className={styles.xp} aria-live="polite">
             <span className={styles.xpValue}>{shownXp}</span>
-            <span className={styles.xpLabel}>xp</span>
+            <span className={styles.xpLabel}>{t('header.xp')}</span>
           </div>
 
           <button
             type="button"
             className={styles.muteButton}
             aria-pressed={muted}
-            aria-label={muted ? 'Unmute sound' : 'Mute sound'}
+            aria-label={muted ? t('header.unmute') : t('header.mute')}
             onClick={onToggleMute}
           >
             <SpeakerIcon muted={muted} />
           </button>
+
+          <LanguageSwitcher
+            locale={locale}
+            setLocale={setLocale}
+            label={t('header.language')}
+          />
         </div>
       </div>
     </header>

@@ -33,8 +33,8 @@
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: var(--ls-micro);
+  text-transform: var(--tt-micro);
   color: var(--text-dim);
 }
 
@@ -51,7 +51,7 @@
   font-family: var(--sans);
   font-size: 28px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-title);
   color: var(--text);
 }
 

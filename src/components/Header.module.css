@@ -32,6 +32,11 @@
   font-size: 15px;
   font-weight: 500;
   letter-spacing: -0.01em;
+  /* The wordmark is the brand: two spans that spell one Latin word. RTL
+     reverses inline order and rendered it 'craftcode', so it is pinned LTR.
+     Its tracking stays hardcoded for the same reason — it is never
+     translated, so it is always Latin. */
+  direction: ltr;
 }
 
 .wordmarkBright {
@@ -114,8 +119,8 @@
 .xpLabel {
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: var(--ls-micro);
+  text-transform: var(--tt-micro);
   color: var(--text-dim);
 }
 
@@ -145,4 +150,52 @@
 
 .speakerIcon {
   display: block;
+}
+
+/* --- language switcher --- */
+
+/* Three mono language codes in one segmented control. Codes, not flags: a
+   flag names a country, not a language, and anti-slop rule 1 bans emoji as
+   UI. The group is one 1px rectangle; the segments share collapsed borders
+   so it reads as a single object rather than three buttons. */
+.langGroup {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  height: 28px;
+}
+
+.langButton {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-2);
+  background: var(--bg);
+  border: 0;
+  border-inline-start: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  /* The codes are always Latin two-letter abbreviations, so they keep their
+     tracked-out uppercase treatment even under RTL — unlike translated
+     micro-labels, which read from --ls-micro. */
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  cursor: pointer;
+  transition: color var(--t-fast), background var(--t-fast);
+}
+
+.langButton:first-child {
+  border-inline-start: 0;
+}
+
+.langButton:hover {
+  background: var(--surface-2);
+  color: var(--text-dim);
+}
+
+/* Active is stated by both weight and color, never color alone. */
+.langButton[data-active='true'] {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
 }

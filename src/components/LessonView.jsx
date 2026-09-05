@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import ReorderExercise from './ReorderExercise'
+import { useI18n } from '../i18n'
 import styles from './LessonView.module.css'
 
 /**
@@ -8,6 +9,7 @@ import styles from './LessonView.module.css'
  * lesson.codeLines etc. via props only — zero hardcoded course content.
  */
 export default function LessonView({ section, lesson, isCompleted, muted, onComplete, onBack, onNext }) {
+  const { t, tc } = useI18n()
   // Guards onComplete so a re-render or a second correct check cannot
   // double-award XP. Reset whenever the lesson identity changes.
   const hasAwardedRef = useRef(isCompleted)
@@ -33,19 +35,24 @@ export default function LessonView({ section, lesson, isCompleted, muted, onComp
   return (
     <section className={styles.wrap}>
       <button type="button" className={styles.back} onClick={onBack}>
-        <span aria-hidden="true">&larr;</span> Back
+        <span className="cc-flip" aria-hidden="true">
+          &larr;
+        </span>{' '}
+        {t('lesson.back')}
       </button>
 
-      <span className={styles.sectionLabel}>{section.title}</span>
+      <span className={styles.sectionLabel}>
+        {tc(section.id, 'title', section.title)}
+      </span>
 
       <div className={styles.titleRow}>
-        <h1 className={styles.title}>{lesson.title}</h1>
+        <h1 className={styles.title}>{tc(lesson.id, 'title', lesson.title)}</h1>
         <span className={xpClassName} aria-live="polite">
-          <span className={styles.xpValue}>{lesson.xp}</span> xp
+          <span className={styles.xpValue}>{lesson.xp}</span> {t('lesson.xp')}
         </span>
       </div>
 
-      <p className={styles.prompt}>Drag the lines into the correct order, then check your work.</p>
+      <p className={styles.prompt}>{t('lesson.prompt')}</p>
 
       <ReorderExercise
         key={lesson.id}

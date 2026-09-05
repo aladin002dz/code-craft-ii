@@ -7,7 +7,7 @@
   font-size: 28px;
   font-weight: 700;
   color: var(--text);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-title);
   margin: 0 0 var(--sp-2);
 }
 
@@ -123,7 +123,7 @@
   position: relative;
   display: block;
   width: 100%;
-  text-align: left;
+  text-align: start;
   background: var(--surface);
   border: 1px solid var(--border);
   padding: var(--sp-5) var(--sp-4);
@@ -134,7 +134,7 @@
 .card::before {
   content: '';
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   bottom: 0;
   width: 1px;
@@ -194,8 +194,8 @@
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: var(--ls-micro);
+  text-transform: var(--tt-micro);
 }
 
 .labelCurrent {

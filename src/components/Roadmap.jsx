@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n'
 import styles from './Roadmap.module.css'
 
 function pad2(n) {
@@ -5,6 +6,7 @@ function pad2(n) {
 }
 
 export function Roadmap({ sections, progress, onOpenSection }) {
+  const { t, tc } = useI18n()
   const progressById = new Map(progress.sections.map((p) => [p.id, p]))
 
   // index of the section currently in progress — everything at or above
@@ -22,7 +24,7 @@ export function Roadmap({ sections, progress, onOpenSection }) {
   return (
     <>
       <div className={styles.screenHead}>
-        <h1 className={styles.screenTitle}>Roadmap</h1>
+        <h1 className={styles.screenTitle}>{t('roadmap.title')}</h1>
         <p className={styles.screenProgress}>
           <span className={styles.screenProgressCount}>
             {progress.completedCount}
@@ -30,8 +32,8 @@ export function Roadmap({ sections, progress, onOpenSection }) {
           {' / '}
           <span className={styles.screenProgressCount}>
             {progress.totalCount}
-          </span>
-          {' lessons complete'}
+          </span>{' '}
+          {t('roadmap.lessonsComplete', { count: progress.totalCount })}
         </p>
       </div>
 
@@ -53,10 +55,14 @@ export function Roadmap({ sections, progress, onOpenSection }) {
               <div className={styles.cardHead}>
                 <span className={styles.index}>{pad2(i + 1)}</span>
                 {status === 'current' && (
-                  <span className={styles.labelCurrent}>in progress</span>
+                  <span className={styles.labelCurrent}>
+                    {t('roadmap.inProgress')}
+                  </span>
                 )}
                 {status === 'locked' && (
-                  <span className={styles.labelLocked}>locked</span>
+                  <span className={styles.labelLocked}>
+                    {t('roadmap.locked')}
+                  </span>
                 )}
                 {status === 'completed' && (
                   <span className={styles.check} aria-hidden="true">
@@ -64,11 +70,16 @@ export function Roadmap({ sections, progress, onOpenSection }) {
                   </span>
                 )}
               </div>
-              <h3 className={styles.title}>{section.title}</h3>
-              <p className={styles.description}>{section.description}</p>
+              <h3 className={styles.title}>
+                {tc(section.id, 'title', section.title)}
+              </h3>
+              <p className={styles.description}>
+                {tc(section.id, 'description', section.description)}
+              </p>
               <div className={styles.meta}>
                 <span className={styles.count}>
-                  {completed} / {total} lessons
+                  {completed} / {total}{' '}
+                  {t('roadmap.lessonCount', { count: total })}
                 </span>
               </div>
               <div className={styles.barTrack}>
@@ -104,7 +115,7 @@ export function Roadmap({ sections, progress, onOpenSection }) {
               {status === 'locked' ? (
                 <div
                   className={`${styles.card} ${styles.cardLocked}`}
-                  title="Locked — finish the previous section first"
+                  title={t('roadmap.lockedHint')}
                 >
                   {cardInner}
                 </div>
