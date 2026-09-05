@@ -16,6 +16,7 @@ import {
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import SortableLine from './SortableLine'
 import { useAudio } from '../hooks/useAudio'
+import { useI18n } from '../i18n'
 import styles from './ReorderExercise.module.css'
 
 function prefersReducedMotion() {
@@ -52,13 +53,15 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
   const [solved, setSolved] = useState(isCompleted)
   const [wrongIds, setWrongIds] = useState(() => new Set())
   const [flashing, setFlashing] = useState(false)
-  const [message, setMessage] = useState('')
+  const [result, setResult] = useState(null)
   // Tracks an in-progress pointer/keyboard drag so text selection can be
   // suppressed only while dragging, keeping code text selectable otherwise.
   const [isDragging, setIsDragging] = useState(false)
 
   const solvedOnceRef = useRef(isCompleted) // guards this component's own check handler
   const reducedMotion = prefersReducedMotion()
+
+  const { t } = useI18n()
 
   const { playCorrect, playIncorrect } = useAudio(muted)
 
@@ -94,7 +97,7 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
       solvedOnceRef.current = true
       setSolved(true)
       setWrongIds(new Set())
-      setMessage('Correct. All 5 lines are in the right order.')
+      setResult({ kind: 'correct', correct: order.length, total: order.length })
       if (!reducedMotion) {
         setFlashing(true)
       }
@@ -108,7 +111,7 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
       } else {
         triggerShake(wrong)
       }
-      setMessage(`${correctCount} of ${order.length} lines are in the right position. Try again.`)
+      setResult({ kind: 'incorrect', correct: correctCount, total: order.length })
       playIncorrect()
     }
   }, [order, reducedMotion, triggerShake, playCorrect, playIncorrect, onComplete, lesson.xp])
@@ -132,6 +135,14 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
   const handleDragCancel = useCallback(() => {
     setIsDragging(false)
   }, [])
+
+  const message = result
+    ? t(`lesson.${result.kind}`, {
+        count: result.kind === 'correct' ? result.total : result.correct,
+        correct: result.correct,
+        total: result.total,
+      })
+    : ''
 
   const containerClassName = [
     styles.exercise,
@@ -161,7 +172,7 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
         onDragCancel={handleDragCancel}
       >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
-          <ol className={styles.list}>
+          <ol className={`${styles.list} cc-ltr`}>
             {order.map((lineId, index) => (
               <SortableLine
                 key={lineId}
@@ -183,11 +194,11 @@ export default function ReorderExercise({ lesson, isCompleted, muted, onComplete
         </p>
         {solved ? (
           <button type="button" className={styles.primaryButton} onClick={onNext ?? onBack}>
-            {onNext ? 'Next lesson' : 'Back to section'}
+            {onNext ? t('lesson.next') : t('lesson.backToSection')}
           </button>
         ) : (
           <button type="button" className={styles.primaryButton} onClick={handleCheck}>
-            Check
+            {t('lesson.check')}
           </button>
         )}
       </div>

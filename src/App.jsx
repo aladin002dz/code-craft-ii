@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { sections } from './data/courseData.js'
 import { deriveProgress } from './lib/progress.js'
+import { useI18n } from './i18n'
 import Header from './components/Header.jsx'
 import Roadmap from './components/Roadmap.jsx'
 import SectionView from './components/SectionView.jsx'
@@ -9,6 +10,7 @@ import LessonView from './components/LessonView.jsx'
 const HOME = { name: 'home' }
 
 export default function App() {
+  const { tc } = useI18n()
   const [view, setView] = useState(HOME)
   const [completedIds, setCompletedIds] = useState([])
   const [xp, setXp] = useState(0)
@@ -69,16 +71,19 @@ export default function App() {
 
   const crumbs = useMemo(() => {
     if (view.name === 'section' && section) {
-      return [{ label: section.title, onClick: null }]
+      return [{ label: tc(section.id, 'title', section.title), onClick: null }]
     }
     if (view.name === 'lesson' && section && lesson) {
       return [
-        { label: section.title, onClick: backToSection },
-        { label: lesson.title, onClick: null },
+        {
+          label: tc(section.id, 'title', section.title),
+          onClick: backToSection,
+        },
+        { label: tc(lesson.id, 'title', lesson.title), onClick: null },
       ]
     }
     return []
-  }, [view.name, section, lesson, backToSection])
+  }, [view.name, section, lesson, backToSection, tc])
 
   return (
     <>

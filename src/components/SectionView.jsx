@@ -1,4 +1,5 @@
 import { isLessonUnlocked } from '../lib/progress.js'
+import { useI18n } from '../i18n'
 import styles from './SectionView.module.css'
 
 function pad2(n) {
@@ -14,14 +15,21 @@ function lessonStatus(section, lesson, completedIds) {
 }
 
 export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
+  const { t, tc } = useI18n()
+
   return (
     <>
       <button type="button" className={styles.back} onClick={onBack}>
-        <span aria-hidden="true">←</span> back to roadmap
+        <span className="cc-flip" aria-hidden="true">
+          ←
+        </span>{' '}
+        {t('section.back')}
       </button>
 
-      <h2 className={styles.title}>{section.title}</h2>
-      <p className={styles.description}>{section.description}</p>
+      <h2 className={styles.title}>{tc(section.id, 'title', section.title)}</h2>
+      <p className={styles.description}>
+        {tc(section.id, 'description', section.description)}
+      </p>
 
       <ol className={styles.list}>
         {section.lessons.map((lesson, i) => {
@@ -31,11 +39,19 @@ export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
           const rowInner = (
             <>
               <span className={styles.index}>{pad2(i + 1)}</span>
-              <span className={styles.glyph} data-status={status} aria-hidden="true">
+              <span
+                className={`${styles.glyph}${status === 'current' ? ' cc-flip' : ''}`}
+                data-status={status}
+                aria-hidden="true"
+              >
                 {status === 'done' ? '✓' : status === 'current' ? '→' : '·'}
               </span>
-              <span className={styles.lessonTitle}>{lesson.title}</span>
-              <span className={styles.xp}>{lesson.xp} xp</span>
+              <span className={styles.lessonTitle}>
+                {tc(lesson.id, 'title', lesson.title)}
+              </span>
+              <span className={styles.xp}>
+                {lesson.xp} {t('section.xp')}
+              </span>
             </>
           )
 
@@ -45,7 +61,7 @@ export function SectionView({ section, completedIds, onOpenLesson, onBack }) {
                 <div
                   className={`${styles.row} ${styles.rowLocked}`}
                   data-status={status}
-                  title="Locked — finish the previous lesson first"
+                  title={t('section.lockedHint')}
                 >
                   {rowInner}
                 </div>

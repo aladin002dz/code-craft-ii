@@ -18,11 +18,25 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Arabic sits lower on the line and needs more room to breathe than Latin
+   at the same size. See .claude/skills/codecraft-i18n/SKILL.md. */
+html[dir='rtl'] body {
+  line-height: 1.85;
+}
+
 code,
 pre,
 kbd,
 .mono {
   font-family: var(--mono);
+}
+
+/* Code is never mirrored and never translated. Any element carrying this
+   class holds JavaScript and stays left-to-right in every locale, so the
+   tokens a learner reorders match the ones they will type in an editor. */
+.cc-ltr {
+  direction: ltr;
+  text-align: left;
 }
 
 /* numbers that can change value should read as a steady-width readout */
@@ -64,6 +78,14 @@ a {
 main.cc-container {
   padding-top: var(--sp-6);
   padding-bottom: var(--sp-8);
+}
+
+/* Directional glyphs (back arrows, the 'current lesson' caret) point at a
+   physical edge, so they mirror with the layout. Symmetric motion — the
+   incorrect-answer shake — does not, and is left alone. */
+html[dir='rtl'] .cc-flip {
+  display: inline-block;
+  transform: scaleX(-1);
 }
 
 /* keyboard focus is always visible, never a browser default */

@@ -1,5 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useI18n } from '../i18n'
 import styles from './ReorderExercise.module.css'
 
 /**
@@ -13,6 +14,7 @@ import styles from './ReorderExercise.module.css'
  * - locked: true once the exercise is solved — disables drag entirely
  */
 export default function SortableLine({ id, text, index, wrong, locked, onAnimationEnd }) {
+  const { t } = useI18n()
   const {
     attributes,
     listeners,
@@ -50,7 +52,7 @@ export default function SortableLine({ id, text, index, wrong, locked, onAnimati
       <button
         type="button"
         className={styles.handle}
-        aria-label="Drag to reorder line"
+        aria-label={t('lesson.dragHandle')}
         disabled={locked}
         {...attributes}
         {...listeners}

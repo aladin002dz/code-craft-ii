@@ -46,13 +46,37 @@
   --sp-7: 48px;
   --sp-8: 64px;
 
-  /* type families */
-  --mono: 'JetBrains Mono', ui-monospace, monospace;
-  --sans: 'Inter', system-ui, sans-serif;
+  /* type families — 'Noto Sans Arabic' is appended to BOTH stacks. Neither
+     JetBrains Mono nor Inter carries Arabic glyphs, so Arabic falls through
+     to a face that has them while Latin and digits keep their intended
+     face. There is no credible Arabic monospace; a mono micro-label is a
+     Latin-typographic idea, and Arabic taking a proportional face there is
+     correct rather than a compromise. */
+  --mono: 'JetBrains Mono', 'Noto Sans Arabic', ui-monospace, monospace;
+  --sans: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+
+  /* micro-label typography — tracked-out uppercase is a Latin convention.
+     Arabic is cursive (letter-spacing severs the joins) and unicameral
+     (uppercase is meaningless), so [dir='rtl'] neutralizes both below.
+     Every micro-label reads its tracking and casing from these two. */
+  --ls-micro: 0.1em;
+  --ls-micro-tight: 0.05em;
+  --tt-micro: uppercase;
+
+  /* tight tracking on screen and card titles — also a Latin habit */
+  --ls-title: -0.02em;
 
   /* motion */
   --t-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
   --t-med: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Arabic: no tracking, no casing change. See codecraft-i18n doctrine. */
+[dir='rtl'] {
+  --ls-micro: 0;
+  --ls-micro-tight: 0;
+  --tt-micro: none;
+  --ls-title: 0;
 }
 
 /* sharp corners everywhere, no exceptions */

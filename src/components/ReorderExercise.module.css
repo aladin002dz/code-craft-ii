@@ -218,8 +218,8 @@
   flex: none;
   font-family: var(--mono);
   font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: var(--ls-micro-tight);
+  text-transform: var(--tt-micro);
   padding: var(--sp-2) var(--sp-4);
   border: 1px solid var(--emerald);
   background: var(--emerald-soft);
